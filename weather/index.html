@@ -2,10 +2,10 @@
 <html class="h-100" lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="description" content="The GitHub projects of JamesTGH">
+    <meta name="description" content="Weather events page by JamesTGH">
     <meta name="author" content="JamesTGH">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>JamesTGH: Home</title>
+    <title>JamesTGH: Weather</title>
     <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="../css/style.css">
@@ -39,9 +39,21 @@
         </div>
       </nav>
     </header>
-    <!-- <main class="container-lg bg-black my-2 px-2 py-2">
-      
-    </main> -->
+    <main class="container-lg bg-black my-2 px-2 py-2">
+      <div class="row g-1">
+        <div class="col-6">
+          <a id="radar-image-href" href="#" target="_blank">
+            <img id="radar-image" class="d-block w-100 h-100 border border-2 border-white" src="" alt="NWS Radar Latest Image" width="600" height="550">
+          </a>
+        </div>
+        <div class="col-6">
+          <a id="radar-loop-href" href="#" target="_blank">
+            <img id="radar-loop" class="d-block w-100 h-100 border border-2 border-white" src="" alt="NWS Radar Latest Image Loop" width="600" height="550">
+          </a>
+        </div>
+      </div>
+      <hr class="border-3 border-bottom">
+    </main>
     <footer class="d-flex flex-wrap align-items-center justify-content-between mt-auto py-2 px-3 bg-black">
       <p class="col-md-4 mb-0 text-secondary">Copyright © 2014</p>
       <a class="d-flex align-items-center justify-content-center" href="/">
@@ -68,26 +80,41 @@
         $('footer > p:first').text(`Copyright © 2014-${new Date().getFullYear()}`);
         const locationParam = new URLSearchParams(window.location.search).get('location');
         if (!locationParam) {
-            if ("geolocation" in navigator) {
+            if ('geolocation' in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => { window.location.assign(`../weather?location=${position.coords.latitude},${position.coords.longitude}`); },
                     (error) => { console.error(error); }
                 );
             } else {
-                console.error("Geolocation is not supported by this browser.");
+                console.error('Geolocation is not supported by this browser.');
             }
         } else {
-            const coordinates = locationParam.split(',');
             (async () => {
-                try {
-                    const apiResponse = await fetch(`https://api.weather.gov/points/${coordinates[0]},${coordinates[1]}`);
-                    if (apiResponse.ok) {
-                        const apiContent = await apiResponse.json();
-                        console.log(apiContent);
+                async function pointsMetadata(coordinates) {
+                    try {
+                        const apiResponse = await fetch(`https://api.weather.gov/points/${coordinates[0]},${coordinates[1]}`);
+                        if (apiResponse.ok) {
+                            return await apiResponse.json();
+                        }
+                    } catch (error) {
+                        console.error(error);
                     }
-                } catch (error) {
-                    console.error(error);
                 }
+                const weatherData = await pointsMetadata(locationParam.split(','));
+                $(document).ready(function() {
+                    if (weatherData) {
+                        $('a#radar-image-href').attr('href', `https://radar.weather.gov/ridge/standard/${weatherData.properties.radarStation}_0.gif`);
+                        $('img#radar-image').attr({
+                            src: `https://radar.weather.gov/ridge/standard/${weatherData.properties.radarStation}_0.gif`,
+                            alt: `NWS Radar ${weatherData.properties.radarStation} Latest Image`
+                        });
+                        $('a#radar-loop-href').attr('href', `https://radar.weather.gov/ridge/standard/${weatherData.properties.radarStation}_loop.gif`);
+                        $('img#radar-loop').attr({
+                            src: `https://radar.weather.gov/ridge/standard/${weatherData.properties.radarStation}_loop.gif`,
+                            alt: `NWS Radar ${weatherData.properties.radarStation} Latest Image Loop`
+                        });
+                    }
+                });
             })();
         }
     </script>
