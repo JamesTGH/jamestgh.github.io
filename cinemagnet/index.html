@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMagnet</title>
+    <style>
+        video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CineMagnet</h1>
+    <label for="magnetInput">magnet:</label><input type="text" id="magnetInput">
+    <label for="apikeyInput">apikey:</label><input type="text" id="apikeyInput">
+    <button onclick="runFunction()">Stream Magnet</button>
+    <a id="magnetStreamUrl" href=""></a>
+    <br>
+    <br>
+    <video id="myVideo" width="640" height="360" controls>
+        Your browser does not support the video tag.
+    </video>
+    <script>
+        async function getMagnetStream(agent, apikey, magnet) {
+            try {
+                const fetchMagnetCached = await fetch(`https://api.alldebrid.com/v4/magnet/instant?agent=${agent}&apikey=${apikey}&magnets[]=${magnet}`);
+                if (fetchMagnetCached.ok) {
+                    const magnetCachedResponse = await fetchMagnetCached.json();
+                    if (magnetCachedResponse.data.magnets[0].instant) {
+                        const fetchMagnetId = await fetch(`https://api.alldebrid.com/v4/magnet/upload?agent=${agent}&apikey=${apikey}&magnets[]=${magnet}`);
+                        if (fetchMagnetId.ok) {
+                            const magnetIdResponse = await fetchMagnetId.json();
+                            const magnetId = magnetIdResponse.data.magnets[0].id;
+                            if (magnetId) {
+                                const fetchMagnetLink = await fetch(`https://api.alldebrid.com/v4/magnet/status?agent=${agent}&apikey=${apikey}&id=${magnetId}`);
+                                if (fetchMagnetLink.ok) {
+                                    const magnetLinkResponse = await fetchMagnetLink.json();
+                                    const fileWithLargestSize = magnetLinkResponse.data.magnets.links.reduce((prev, current) => {
+                                        return (prev.size > current.size) ? prev : current;
+                                    }, {});
+                                    const fetchMagnetUnlockedLink = await fetch(`https://api.alldebrid.com/v4/link/unlock?agent=${agent}&apikey=${apikey}&link=${fileWithLargestSize.link}`);
+                                    if (fetchMagnetUnlockedLink.ok) {
+                                        const magnetUnlockedLinkResponse = await fetchMagnetUnlockedLink.json();
+                                        return magnetUnlockedLinkResponse.data.link;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        console.error('magnet is not cached');
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        async function runFunction() {
+            const magnet = document.getElementById('magnetInput').value;
+            const apikey = document.getElementById('apikeyInput').value;
+            if (apikey && magnet) {
+                if (/^[0-9a-f]{40}$/i.test(magnet)) {
+                    const streamUrl = await getMagnetStream('cinemagnet', apikey, magnet);
+                    const magnetStreamUrl = document.getElementById("magnetStreamUrl");
+                    magnetStreamUrl.href = streamUrl;
+                    magnetStreamUrl.textContent = streamUrl;
+                    const video = document.getElementById("myVideo");
+                    video.src = streamUrl;
+                    video.load();
+                    video.play();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
