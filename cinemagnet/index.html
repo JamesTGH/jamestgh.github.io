@@ -10,6 +10,9 @@
       color: #F1F1F1;
       font-family: monospace;
     }
+    input {
+      outline: none;
+    }
     #magnethash {
       width: 44ch;
     }
@@ -27,8 +30,9 @@
   <label for="magnethash">Magnet Hash:</label>
   <input type="text" id="magnethash">
   <button onclick="runFunction()">Stream Magnet</button>
+  <br>
   <a id="magnetstreamurl" href=""></a>
-  <br><br>
+  <br>
   <video id="magnetstreamvideo" width="640" height="360" controls>
     Your browser does not support the video tag.
   </video>
