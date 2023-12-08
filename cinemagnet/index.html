@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMagnet</title>
-    <style>
-        video {
-            width: 100%;
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineMagnet</title>
+  <style>
+    html {
+      background-color: #000000;
+      color: #F1F1F1;
+    }
+    #magnetStreamVideo {
+      width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
-    <label for="debridkey">Debrid API Key:</label>
-    <input type="text" id="debridkey">
-    <button onclick="saveDebridKey()">Save</button>
-    <button onclick="deleteDebridKey()">Delete</button>
-    <label for="magnethash">Magnet:</label>
-    <input type="text" id="magnethash">
-    <button onclick="runFunction()">Stream Magnet</button>
-    <a id="magnetStreamUrl" href=""></a>
-    <br><br>
-    <video id="magnetStreamVideo" width="640" height="360" controls>
-        Your browser does not support the video tag.
-    </video>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.5/js.cookie.min.js" integrity="sha512-nlp9/l96/EpjYBx7EP7pGASVXNe80hGhYAUrjeXnu/fyF5Py0/RXav4BBNs7n5Hx1WFhOEOWSAVjGeC3oKxDVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="../js/cinemagnet.js"></script>
+  <label for="debridkey">Debrid API Key:</label>
+  <input type="text" id="debridkey">
+  <button onclick="saveDebridKey()">Save</button>
+  <button onclick="deleteDebridKey()">Delete</button>
+  <label for="magnethash">Magnet:</label>
+  <input type="text" id="magnethash">
+  <button onclick="runFunction()">Stream Magnet</button>
+  <a id="magnetStreamUrl" href=""></a>
+  <br><br>
+  <video id="magnetStreamVideo" width="640" height="360" controls>
+    Your browser does not support the video tag.
+  </video>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.5/js.cookie.min.js" integrity="sha512-nlp9/l96/EpjYBx7EP7pGASVXNe80hGhYAUrjeXnu/fyF5Py0/RXav4BBNs7n5Hx1WFhOEOWSAVjGeC3oKxDVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="../js/cinemagnet.js"></script>
 </body>
 </html>
