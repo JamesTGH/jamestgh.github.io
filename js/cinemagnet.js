@@ -45,9 +45,9 @@ async function runFunction() {
 	if (debridKey && magnetHash) {
 		if (/^[0-9a-f]{40}$/i.test(magnetHash)) {
 			const magnetStreamUrl = await getMagnetStream('cinemagnet', debridKey, magnetHash);
-			$('#magnetStreamUrl').attr('href', magnetStreamUrl).text(magnetStreamUrl);
-			$('#magnetStreamVideo').attr('src', magnetStreamUrl).get(0).load();
-			$('#magnetStreamVideo').get(0).play();
+			$('#magnetstreamurl').attr('href', magnetStreamUrl).text(magnetStreamUrl);
+			$('#magnetstreamvideo').attr('src', magnetStreamUrl).get(0).load();
+			$('#magnetstreamvideo').get(0).play();
 		}
 	}
 }

@@ -8,8 +8,12 @@
     html {
       background-color: #000000;
       color: #F1F1F1;
+      font-family: monospace;
     }
-    #magnetStreamVideo {
+    #magnethash {
+      width: 44ch;
+    }
+    #magnetstreamvideo {
       width: 100%;
       height: auto;
     }
@@ -20,12 +24,12 @@
   <input type="text" id="debridkey">
   <button onclick="saveDebridKey()">Save</button>
   <button onclick="deleteDebridKey()">Delete</button>
-  <label for="magnethash">Magnet:</label>
+  <label for="magnethash">Magnet Hash:</label>
   <input type="text" id="magnethash">
   <button onclick="runFunction()">Stream Magnet</button>
-  <a id="magnetStreamUrl" href=""></a>
+  <a id="magnetstreamurl" href=""></a>
   <br><br>
-  <video id="magnetStreamVideo" width="640" height="360" controls>
+  <video id="magnetstreamvideo" width="640" height="360" controls>
     Your browser does not support the video tag.
   </video>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
