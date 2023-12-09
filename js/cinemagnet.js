@@ -48,19 +48,15 @@ async function runFunction() {
 			$('#magnetstreamurl').attr('href', magnetStreamUrl);
 			$('#magnetstreamvideo').attr('src', magnetStreamUrl).get(0).load();
 			$('#magnetstreamvideo').get(0).play();
+			var video = $('#magnetstreamvideo')[0]; // Get the video element as a plain DOM object
 
-			var video = document.getElementById('magnetstreamvideo');
-			// Check if the video element is supported
 			if (video.canPlayType) {
-				// Get the supported video codecs
 				var codecs = video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
 				console.log('Supported video codecs: ' + codecs);
 		
-				// Get the current source of the video
 				var videoUrl = video.currentSrc;
 				console.log('Video URL: ' + videoUrl);
 		
-				// Get information about the video track
 				var videoTrack = video.videoTracks[0];
 				if (videoTrack) {
 					console.log('Video Track Information:');
@@ -69,7 +65,6 @@ async function runFunction() {
 					console.log('Label: ' + videoTrack.label);
 				}
 		
-				// Get information about the audio track
 				var audioTrack = video.audioTracks[0];
 				if (audioTrack) {
 					console.log('Audio Track Information:');
