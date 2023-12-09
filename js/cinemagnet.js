@@ -103,6 +103,7 @@ async function runFunction() {
 			});
 
 			$('#magnetstreamvideo').get(0).load();
+			$('#magnetstreamvideo').get(0).play();
 		}
 	}
 }
