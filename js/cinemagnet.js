@@ -95,25 +95,8 @@ async function runFunction() {
 				if (video.canPlayType) {
 					var codecs = video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
 					console.log('Supported video codecs: ' + codecs);
-
-					var videoUrl = video.currentSrc;
-					console.log('Video URL: ' + videoUrl);
-
-					var videoTrack = video.videoTracks[0];
-					if (videoTrack) {
-						console.log('Video Track Information:');
-						console.log('Track ID: ' + videoTrack.id);
-						console.log('Kind: ' + videoTrack.kind);
-						console.log('Label: ' + videoTrack.label);
-					}
-
-					var audioTrack = video.audioTracks[0];
-					if (audioTrack) {
-						console.log('Audio Track Information:');
-						console.log('Track ID: ' + audioTrack.id);
-						console.log('Kind: ' + audioTrack.kind);
-						console.log('Label: ' + audioTrack.label);
-					}
+					console.log(video.videoTracks);
+					console.log(video.audioTracks);
 				} else {
 					console.error('Video element is not supported in this browser.');
 				}
